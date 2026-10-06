@@ -29,6 +29,7 @@ const
   DEBIAN_ID = 1;
   FEDORA_ID = 2;
   UBUNTU_ID = 3;
+  ARCH_ID = 4;
 
   RESET_COLOR = #27'[0m';
   RED = #27'[31m';
@@ -57,15 +58,20 @@ begin
     begin
       os_id := FEDORA_ID;
       break;
-    end;
-    if pos('ID=debian', line) = 1 then
+    end
+    else if pos('ID=debian', line) = 1 then
     begin
       os_id := DEBIAN_ID;
       break;
-    end;
-    if pos('ID=ubuntu', line) = 1 then
+    end
+    else if pos('ID=ubuntu', line) = 1 then
     begin
       os_id := UBUNTU_ID;
+      break;
+    end
+    else if pos('ID=arch', line) = 1 then
+    begin
+      os_id := ARCH_ID;
       break;
     end;
   end;
@@ -86,6 +92,8 @@ begin
       os_id := FEDORA_ID
     else if arg = '--os=ubuntu' then
       os_id := UBUNTU_ID
+    else if arg = '--os=arch' then
+      os_id := ARCH_ID
     else
       GetOSID(OS_FILE, os_id);
   end
@@ -127,6 +135,17 @@ begin
     writeln(ORANGE, ' | |__| | |_) | |_| | | | | |_| |_| |', RESET_COLOR);
     writeln(ORANGE, '  \____/|_.__/ \__,_|_| |_|\__|\__,_|', RESET_COLOR);
     writeln(ORANGE, '                                     ', RESET_COLOR);
+  end
+  else if os_id = ARCH_ID then
+  begin
+    writeln;
+    writeln(CYAN, '                    _     ', RESET_COLOR);
+    writeln(CYAN, '     /\            | |    ', RESET_COLOR);
+    writeln(CYAN, '    /  \   _ __ ___| |__  ', RESET_COLOR);
+    writeln(CYAN, '   / /\ \ | ''__/ __| ''_ \ ', RESET_COLOR);
+    writeln(CYAN, '  / ____ \| | | (__| | | |', RESET_COLOR);
+    writeln(CYAN, ' /_/    \_\_|  \___|_| |_|', RESET_COLOR);
+    writeln(CYAN, '                          ', RESET_COLOR);
   end;
 end;
 
