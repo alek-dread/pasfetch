@@ -24,6 +24,7 @@ const
   MEMINFO_FILE = '/proc/meminfo';
   CPUINFO_FILE = '/proc/cpuinfo';
   SHELL_FILE = '/proc/self/status';
+  ENV_FILE = '/proc/self/environ';
 
   DEBIAN_ID = 1;
   FEDORA_ID = 2;
@@ -104,8 +105,8 @@ begin
     writeln(RED, ' | |__| |  __/ |_) | | (_| | | | |', RESET_COLOR);
     writeln(RED, ' |_____/ \___|_.__/|_|\__,_|_| |_|', RESET_COLOR);
     writeln(RED, '                                  ', RESET_COLOR);
-  end;
-  if os_id = FEDORA_ID then
+  end
+  else if os_id = FEDORA_ID then
   begin
     writeln;
     writeln(BLUE, '  ______       _                 ', RESET_COLOR);
@@ -115,8 +116,8 @@ begin
     writeln(BLUE, ' | | |  __/ (_| | (_) | | | (_| |', RESET_COLOR);
     writeln(BLUE, ' |_|  \___|\__,_|\___/|_|  \__,_|', RESET_COLOR);
     writeln(BLUE, '                                 ', RESET_COLOR);
-  end;
-  if os_id = UBUNTU_ID then
+  end
+  else if os_id = UBUNTU_ID then
   begin
     writeln;
     writeln(ORANGE, '  _    _ _                 _         ', RESET_COLOR);
@@ -215,14 +216,20 @@ begin
       ExtractNumber(line, 'MemTotal:');
       Val(line, total_kb, code);
       if code <> 0 then
-      writeln('Error parsing MemTotal');
+      begin
+        writeln('Error parsing MemTotal');
+        break;
+      end;
     end;
     if pos('MemAvailable:', line) = 1 then
     begin
       ExtractNumber(line, 'MemAvailable:');
       Val(line, available_kb, code);
       if code <> 0 then
-      writeln('Error parsing MemAvailable');
+      begin
+        writeln('Error parsing MemTotal');
+        break;
+      end;
     end;
     if (total_kb > 0) and (available_kb > 0) then
       break;
@@ -302,6 +309,35 @@ begin
   end;
 end;
 
+procedure WriteWMName(filename: string);
+var
+  wm_file_var: text;
+  ch: char;
+  entery: string;
+begin
+  entery := '';
+  assign(wm_file_var, filename);
+  reset(wm_file_var);
+  while not eof(wm_file_var) do
+  begin
+    read(wm_file_var, ch);
+    if ch <> #0 then
+      entery := entery + ch
+    else
+    begin
+      if pos('XDG_CURRENT_DESKTOP=', entery) = 1 then
+      begin
+        delete(entery, 1, length('XDG_CURRENT_DESKTOP='));
+        writeln(CYAN, 'WM       ', RESET_COLOR, entery);
+        break;
+      end
+      else
+        entery := '';
+    end;
+  end;
+  close(wm_file_var);
+end;
+
 var
   os_id: byte;
 
@@ -312,10 +348,10 @@ begin
   WriteOSName(OS_FILE);
   WriteSingleLine(KERNEL_FILE, 'KERNEL   ');
   WriteShell(SHELL_FILE);
+  WriteWMName(ENV_FILE);
   WriteUptime(UPTIME_FILE);
   WriteCPUName(CPUINFO_FILE);
   WriteMemory(MEMINFO_FILE);
   writeln;
 end.
-
 
