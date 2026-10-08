@@ -117,13 +117,13 @@ begin
   else if os_id = FEDORA_ID then
   begin
     writeln;
-    writeln(BLUE, '  ______       _                 ', RESET_COLOR);
-    writeln(BLUE, ' |  ____|     | |                ', RESET_COLOR);
-    writeln(BLUE, ' | |__ ___  __| | ___  _ __ __ _ ', RESET_COLOR);
-    writeln(BLUE, ' |  __/ _ \/ _` |/ _ \| ''__/ _` |', RESET_COLOR);
-    writeln(BLUE, ' | | |  __/ (_| | (_) | | | (_| |', RESET_COLOR);
-    writeln(BLUE, ' |_|  \___|\__,_|\___/|_|  \__,_|', RESET_COLOR);
-    writeln(BLUE, '                                 ', RESET_COLOR);
+    writeln(CYAN, '  ______       _                 ', RESET_COLOR);
+    writeln(CYAN, ' |  ____|     | |                ', RESET_COLOR);
+    writeln(CYAN, ' | |__ ___  __| | ___  _ __ __ _ ', RESET_COLOR);
+    writeln(CYAN, ' |  __/ _ \/ _` |/ _ \| ''__/ _` |', RESET_COLOR);
+    writeln(CYAN, ' | | |  __/ (_| | (_) | | | (_| |', RESET_COLOR);
+    writeln(CYAN, ' |_|  \___|\__,_|\___/|_|  \__,_|', RESET_COLOR);
+    writeln(CYAN, '                                 ', RESET_COLOR);
   end
   else if os_id = UBUNTU_ID then
   begin
@@ -139,13 +139,13 @@ begin
   else if os_id = ARCH_ID then
   begin
     writeln;
-    writeln(CYAN, '                    _     ', RESET_COLOR);
-    writeln(CYAN, '     /\            | |    ', RESET_COLOR);
-    writeln(CYAN, '    /  \   _ __ ___| |__  ', RESET_COLOR);
-    writeln(CYAN, '   / /\ \ | ''__/ __| ''_ \ ', RESET_COLOR);
-    writeln(CYAN, '  / ____ \| | | (__| | | |', RESET_COLOR);
-    writeln(CYAN, ' /_/    \_\_|  \___|_| |_|', RESET_COLOR);
-    writeln(CYAN, '                          ', RESET_COLOR);
+    writeln(BLUE, '                    _     ', RESET_COLOR);
+    writeln(BLUE, '     /\            | |    ', RESET_COLOR);
+    writeln(BLUE, '    /  \   _ __ ___| |__  ', RESET_COLOR);
+    writeln(BLUE, '   / /\ \ | ''__/ __| ''_ \ ', RESET_COLOR);
+    writeln(BLUE, '  / ____ \| | | (__| | | |', RESET_COLOR);
+    writeln(BLUE, ' /_/    \_\_|  \___|_| |_|', RESET_COLOR);
+    writeln(BLUE, '                          ', RESET_COLOR);
   end;
 end;
 
@@ -157,7 +157,7 @@ begin
   assign(file_var, filename);
   reset(file_var);
   readln(file_var, line);
-  writeln(CYAN, label_text, RESET_COLOR, line);
+  writeln(BLUE, label_text, RESET_COLOR, line);
   close(file_var);
 end;
 
@@ -175,7 +175,7 @@ begin
     begin
       delete(line, 1, length('PRETTY_NAME="'));
       delete(line, length(line), 1);
-      writeln(CYAN, 'OS NAME  ', RESET_COLOR, line);
+      writeln(BLUE, 'OS NAME  ', RESET_COLOR, line);
       break;
     end;
   end;
@@ -196,7 +196,7 @@ begin
   seconds := trunc(uptime_value);
   hours := (seconds mod 86400) div 3600;
   minutes := (seconds mod 3600) div 60;
-  writeln(CYAN, 'UPTIME   ', RESET_COLOR, hours, ' hours ', minutes, ' min');
+  writeln(BLUE, 'UPTIME   ', RESET_COLOR, hours, ' hours ', minutes, ' min');
   close(uptime_file_var);
 end;
 
@@ -257,7 +257,7 @@ begin
   used_kb := total_kb - available_kb;
   total_mb := total_kb div 1024;
   used_mb := used_kb div 1024;
-  writeln(CYAN, 'MEMORY   ', RESET_COLOR, used_mb, ' MiB / ', total_mb, ' MiB');
+  writeln(BLUE, 'MEMORY   ', RESET_COLOR, used_mb, ' MiB / ', total_mb, ' MiB');
 end;
 
 procedure WriteCPUName(filename: string);
@@ -279,7 +279,7 @@ begin
         delete(line, 1, p);
         while (length(line) > 0) and (line[1] = ' ') do
           delete(line, 1, 1);
-        writeln(CYAN, 'CPU      ', RESET_COLOR, line);
+        writeln(BLUE, 'CPU      ', RESET_COLOR, line);
       end;
       break;
     end;
@@ -324,7 +324,7 @@ begin
     reset(shell_file_var);
     readln(shell_file_var, shell_name);
     close(shell_file_var);
-    writeln(CYAN, 'SHELL    ', RESET_COLOR, shell_name);
+    writeln(BLUE, 'SHELL    ', RESET_COLOR, shell_name);
   end;
 end;
 
@@ -347,7 +347,7 @@ begin
       if pos('XDG_CURRENT_DESKTOP=', entery) = 1 then
       begin
         delete(entery, 1, length('XDG_CURRENT_DESKTOP='));
-        writeln(CYAN, 'WM       ', RESET_COLOR, entery);
+        writeln(BLUE, 'DE       ', RESET_COLOR, entery);
         break;
       end
       else

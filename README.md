@@ -19,9 +19,7 @@ fpc pasfetch.pas
 You can also force a distro logo:
 
 ```bash
-./pasfetch --os=fedora
-./pasfetch --os=debian
-./pasfetch --os=ubuntu
+./pasfetch --os=[fedora, debian, ubuntu, arch]
 ```
 
 ## License
