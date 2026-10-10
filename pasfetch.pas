@@ -194,7 +194,7 @@ begin
   reset(uptime_file_var);
   readln(uptime_file_var, uptime_value);
   seconds := trunc(uptime_value);
-  hours := (seconds mod 86400) div 3600;
+  hours := seconds div 3600;
   minutes := (seconds mod 3600) div 60;
   writeln(BLUE, 'UPTIME   ', RESET_COLOR, hours, ' hours ', minutes, ' min');
   close(uptime_file_var);
